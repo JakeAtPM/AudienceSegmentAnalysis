@@ -3,4 +3,4 @@ jinja2
 openai
 pandas
 python-dotenv
-requestes
+requests
