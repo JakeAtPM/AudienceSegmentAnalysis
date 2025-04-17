@@ -25,7 +25,7 @@ news_outlets = st.text_area("Enter each news outlet on a new line").splitlines()
 
 # High-Affinity Keywords Input
 st.subheader("🔑 High-Affinity Keywords")
-keywords = st.text_area("Enter keywords separated by commas").split(',')
+keywords = st.text_area("Enter keywords separated by commas")
 
 # Recommended Media Targets Input
 st.subheader("🎯 Media Targets")
@@ -66,10 +66,12 @@ logo_base64 = file_handler.encode_image_base64('static/images/publicmedia-logo.p
 
 if st.button("✅ Generate Report"):
     # Clean and prepare user input
+    cleaned_keywords = [k.strip() for k in keywords.splitlines() if k.strip()]
+
     report_data = {
         "title": audience_title,
         "news_outlets": news_outlets,
-        "keywords": keywords,
+        "keywords": cleaned_keywords,
         "media_targets": media_targets,
         "places_of_interest": places,
         "media_categories": categories,
