@@ -6,24 +6,80 @@ import io
 from datetime import datetime
 
 #variables and functions from other .py
-from utils import ai_summarize, gcs_api_client, L2_api_client, jinja2_generation, uploaded_data_handling
+from utils import ai_summarize, gcs_api_client, L2_api_client, jinja2_generation, file_handler
 
 ### Streamlit Start
-# Audience Input
 
+st.set_page_config(page_title= 'Audience Segment Report', layout= 'centered')
+
+st.title("📊 Audience Segment Report Builder")
+
+# Audience Input
+audience_title = st.text_input("📝 Audience Title", help="This will appear as the report title")
+
+# Primary News Outlets Input
+st.subheader("📰 Primary News Outlets")
+news_outlets = st.text_area("Enter each news outlet on a new line").splitlines()
 
 # High-Affinity Keywords Input
-
+st.subheader("🔑 High-Affinity Keywords")
+keywords = st.text_area("Enter keywords separated by commas").split(',')
 
 # Recommended Media Targets Input
+st.subheader("🎯 Media Targets")
+media_targets = []
+num_targets = st.number_input("How many media targets?", min_value=1, max_value=10, step=1)
+for i in range(num_targets):
+    with st.expander(f"Media Target #{i+1}"):
+        org = st.text_input(f"Target #{i+1} - Organization Name", key=f"media_org_{i}")
+        desc = st.text_area(f"Target #{i+1} - Description", key=f"media_desc_{i}")
+        media_targets.append({"organization": org, "description": desc})
+
+# Places of Interest Input
+st.subheader("📍 Places of Interest")
+places = st.text_area("Enter each place of interest on a new line").splitlines()
 
 
-#Points of Interest and Urbanization Characteristics Input
-
-
-# Media Categories Visited Input
+# Media Categories Input
+st.subheader("📂 Media Categories Visited")
+categories = st.text_area("Enter each category on a new line").splitlines()
 
 
 # Target Audience Demographics Input
+st.subheader("PLACEHOLDER IMAGE TEST")
+image_file = st.file_uploader("Upload an image file", type=["png", "jpg", "jpeg"])
+
+if image_file:
+    saved_path = file_handler.save_uploaded_image(image_file)
+    st.image(saved_path, caption="Uploaded demographic image", use_column_width=True)
+else:
+    saved_path = None
 
 
+# AI Summary Generation and Report Finalization
+
+if st.button("✅ Generate Report"):
+    # Clean and prepare user input
+    cleaned_keywords = [k.strip() for k in keywords if k.strip()]
+
+    report_data = {
+        "title": audience_title,
+        "news_outlets": news_outlets,
+        "keywords": cleaned_keywords,
+        "media_targets": media_targets,
+        "places_of_interest": places,
+        "media_categories": categories,
+        "demographic_image": saved_path
+    }
+
+    with st.spinner("Generating summary with AI..."):
+            summary_text = ai_summarize.generate_summary(report_data)
+            report_data["summary"] = summary_text
+
+    st.success("Report generated!")
+    st.json(report_data)
+
+    json_output_path = os.path.join("json/generated_json", f"{audience_title.replace(' ', '_')}.json")
+    with open(json_output_path, "w") as f:
+        json.dump(report_data, f, indent=2)
+    st.info(f"Saved to {json_output_path}")
