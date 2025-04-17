@@ -135,7 +135,7 @@ if st.button("✅ Generate Report"):
         json.dump(report_data, f, indent=2)
     st.info(f"Saved to {json_output_path}")
 
-    col1, col2 = st.columsn(2)
+    col1, col2 = st.columns(2)
 
     with col1:
         with open(json_output_path, "rb") as jf:
