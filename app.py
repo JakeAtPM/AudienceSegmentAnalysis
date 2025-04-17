@@ -77,8 +77,9 @@ if st.button("✅ Generate Report"):
             summary_text = ai_summarize.generate_summary(report_data)
             report_data["summary"] = summary_text
 
-    # Render HTML with Jinja2
-    template = Environment.get_template("report_template.html")
+    # Render HTML with Jinja2]
+    env = Environment(loader=FileSystemLoader('templates'))
+    template = env.get_template("report_template.html")
     html_output = template.render(report=report_data)
 
     output_path = f"output/reports{audience_title.replace(' ', '_')}_report.html"
