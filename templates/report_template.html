@@ -72,7 +72,7 @@
   <header>
     <h1>{{ report.title }}</h1>
     {% if report.demographic_image %}
-      <img src="static/images/publicmedia-logo.png" alt="logo-branding" style="max-height: 80px;">
+      <img src="{{ report.logo_base64 }}" alt="logo-branding" style="max-height: 80px;">
     {% endif %}
   </header>
 

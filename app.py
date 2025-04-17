@@ -53,14 +53,11 @@ image_file = st.file_uploader("Upload an image file", type=["png", "jpg", "jpeg"
 
 if image_file:
     saved_path = file_handler.save_uploaded_image(image_file)
-
-    with open(saved_path, "rb") as img_file:
-        encoded_img = base64.b64encode(img_file.read()).decode("utf-8")
-        image_data_url = f"data:image/png;base64,{encoded_img}"
-
+    image_base64 = encode_image_base64(saved_path)
     st.image(saved_path, caption="Uploaded demographic image", use_container_width=True)
 else:
     saved_path = None
+
 
 
 # AI Summary Generation and Report Finalization
@@ -70,13 +67,14 @@ if st.button("✅ Generate Report"):
     cleaned_keywords = [k.strip() for k in keywords if k.strip()]
 
     report_data = {
+        "logo_base64": logo_base64,
         "title": audience_title,
         "news_outlets": news_outlets,
         "keywords": cleaned_keywords,
         "media_targets": media_targets,
         "places_of_interest": places,
         "media_categories": categories,
-        "demographic_image": image_data_url
+        "demographic_image": image_base64
     }
 
     with st.spinner("Generating summary with AI..."):
@@ -97,7 +95,6 @@ if st.button("✅ Generate Report"):
         f.write(html_output)
 
     st.success("✅ Report generated!")
-    st.json(report_data)
 
     # Ensure JSON output directory exists
     json_output_dir = "json/generated_json"

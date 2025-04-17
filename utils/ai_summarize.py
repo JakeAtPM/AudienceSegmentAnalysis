@@ -14,7 +14,7 @@ openai.api_key = st.secrets['OPENAI_API_KEY']
 
 def generate_summary(initial_json_output):
     prompt = f"""
-Looking in the 'title' part of the JSON given, analyze and give a short (approx. 100 word) summary about the audience segment described in the data. I don't want any build up just straight into analysis. Begin the summary with the name of the audience segment followed by the summary, but blend it together nicely. The summary should be professional, concise, and suitable for a marketing report.
+Looking only at the 'title' part of the JSON given, analyze and give a short (approx. 100 word) summary about the audience segment described in the data. Don't introduce the segment,  Begin the summary with the name of the audience segment followed by the summary, but blend it together nicely. The summary should be professional, concise, and suitable for a marketing report.
 
 json file: {initial_json_output}
 """

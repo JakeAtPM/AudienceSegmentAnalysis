@@ -2,6 +2,9 @@ import os
 import pandas as pd
 from pathlib import Path
 import re
+import base64
+import mimetypes
+
 
 # Define upload directories
 UPLOAD_DIR = Path('data/uploads')
@@ -51,3 +54,10 @@ def get_path(file_name, folder="data/uploads"):
     Return the full path to a file in a given folder.
     """
     return str(Path(folder) / sanitize_filename(file_name))
+
+
+def encode_image_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        encoded = base64.b64encode(img_file.read()).decode("utf-8")
+        mime_type, _ = mimetypes.guess_type(image_path)
+        return f"data:{mime_type};base64,{encoded}"
