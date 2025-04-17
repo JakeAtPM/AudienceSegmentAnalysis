@@ -20,8 +20,25 @@ st.subheader('📤 Generate Report from Existing JSON file')
 with st.expander("📁 Load Existing JSON"):
     uploaded_json = st.file_uploader("Upload a previously generated JSON file", type="json")
     if uploaded_json is not None:
+        report_data = json.load(uploaded_json)
 
-@@ -41,110 +42,111 @@
+        # Render HTML with Jinja2
+        env = Environment(loader=FileSystemLoader('templates'))
+        template = env.get_template("report_template.html")
+        html_output = template.render(report=report_data)
+
+        # Save to temporary HTML file
+        html_file_name = f"{report_data['title'].replace(' ', '_')}_report_from_json.html"
+        with open(html_file_name, "w") as f:
+            f.write(html_output)
+
+        # Show preview & download
+        st.success("Report generated from uploaded JSON!")
+        st.download_button(
+            label="📥 Download HTML Report",
+            data=open(html_file_name, "rb"),
+            file_name=html_file_name,
+            mime="text/html"
         )
 
 # Audience Input
