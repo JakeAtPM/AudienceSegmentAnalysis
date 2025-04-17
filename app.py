@@ -69,14 +69,12 @@ if st.button("✅ Generate Report"):
     cleaned_keywords = [k.strip() for k in keywords if k.strip()]
 
     report_data = {
-        "logo_base64": logo_base64,
         "title": audience_title,
         "news_outlets": news_outlets,
         "keywords": cleaned_keywords,
         "media_targets": media_targets,
         "places_of_interest": places,
         "media_categories": categories,
-        "demographic_image": image_base64
     }
 
     with st.spinner("Generating summary with AI..."):
@@ -84,6 +82,9 @@ if st.button("✅ Generate Report"):
         report_data["summary"] = summary_text
 
     # Render HTML with Jinja2
+    report_data['logo_base64'] = logo_base64
+    report_data['demographic_image'] = image_base64
+
     env = Environment(loader=FileSystemLoader('templates'))
     template = env.get_template("report_template.html")
     html_output = template.render(report=report_data)
