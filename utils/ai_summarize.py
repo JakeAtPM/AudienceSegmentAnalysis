@@ -16,7 +16,7 @@ Looking at the JSON file provided, analyze and give a short (approx. 100 word) s
 
 json file: {initial_json_output}
 """
-    response = openai.ChatCompletion.create(
+    response = openai.chat.completions.create(
         model = 'gpt-4',
         messages = [{'role':'user','content':prompt}],
         temperature = 0.7,
