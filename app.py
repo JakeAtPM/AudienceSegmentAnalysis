@@ -52,7 +52,7 @@ image_file = st.file_uploader("Upload an image file", type=["png", "jpg", "jpeg"
 
 if image_file:
     saved_path = file_handler.save_uploaded_image(image_file)
-    st.image(saved_path, caption="Uploaded demographic image", use_column_width=True)
+    st.image(saved_path, caption="Uploaded demographic image", use_container_width=True)
 else:
     saved_path = None
 
