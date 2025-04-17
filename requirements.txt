@@ -2,9 +2,5 @@ streamlit
 jinja2
 openai
 pandas
-re
-dotenv
-pathlib
-io
-json
-datetime
+python-dotenv
+requestes
