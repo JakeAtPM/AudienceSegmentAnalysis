@@ -16,6 +16,30 @@ st.set_page_config(page_title= 'Audience Segment Report', layout= 'centered')
 
 st.title("📊 Audience Segment Report Builder")
 
+with st.expander("📁 Load Existing JSON"):
+    uploaded_json = st.file_uploader("Upload a previously generated JSON file", type="json")
+    if uploaded_json is not None:
+        report_data = json.load(uploaded_json)
+
+        # Render HTML with Jinja2
+        env = Environment(loader=FileSystemLoader('templates'))
+        template = env.get_template("report_template.html")
+        html_output = template.render(report=report_data)
+
+        # Save to temporary HTML file
+        html_file_name = f"{report_data['title'].replace(' ', '_')}_report_from_json.html"
+        with open(html_file_name, "w") as f:
+            f.write(html_output)
+
+        # Show preview & download
+        st.success("Report generated from uploaded JSON!")
+        st.download_button(
+            label="📥 Download HTML Report",
+            data=open(html_file_name, "rb"),
+            file_name=html_file_name,
+            mime="text/html"
+        )
+
 # Audience Input
 audience_title = st.text_input("📝 Audience Title", help="This will appear as the report title")
 
@@ -109,6 +133,13 @@ if st.button("✅ Generate Report"):
         json.dump(report_data, f, indent=2)
     st.info(f"Saved to {json_output_path}")
 
+    with open(json_output_path, "rb") as jf:
+        st.download_button(
+            label="📥 Download JSON Data",
+            data=jf,
+            file_name=f"{audience_title.replace(' ', '_')}.json",
+            mime="application/json"
+        )
     # Download button
     with open(output_path, "rb") as f:
         st.download_button(
