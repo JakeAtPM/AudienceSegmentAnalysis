@@ -16,7 +16,7 @@ st.set_page_config(page_title= 'Audience Segment Report', layout= 'centered')
 
 st.title("📊 Audience Segment Report Builder")
 
-st.subheader('📤 Generate Report from Existing JSON file')
+st.subheader('📤 Generate Report from Existing File (optional)')
 with st.expander("📁 Load Existing JSON"):
     uploaded_json = st.file_uploader("Upload a previously generated JSON file", type="json")
     if uploaded_json is not None:
@@ -135,21 +135,31 @@ if st.button("✅ Generate Report"):
         json.dump(report_data, f, indent=2)
     st.info(f"Saved to {json_output_path}")
 
+    st.session_state["report_ready"] = True
+    st.session_state["html_path"] = output_path
+    st.session_state["json_path"] = json_output_path
+    st.session_state["json_data"] = report_data
+
+if st.session_state.get('report_ready'):
+    st.subheader('"⬇️ Download Your Report"')
     col1, col2 = st.columns(2)
 
     with col1:
-        with open(json_output_path, "rb") as jf:
+        json_data = st.session_state.get('json_data')
+        if json_data:
             st.download_button(
                 label="📥 Download JSON Data",
-                data=jf,
+                data=json_data,
                 file_name=f"{audience_title.replace(' ', '_')}.json",
                 mime="application/json"
             )
     with col2:
-        with open(output_path, "rb") as f:
-            st.download_button(
-                label="📥 Download HTML Report",
-                data=f,
-                file_name=os.path.basename(output_path),
-                mime="text/html"
-            )
+        html_path = st.session_state.get('html_path')
+        if html_path and os.path.exists(html_path):
+            with open(html_path, "rb") as f:
+                st.download_button(
+                    label="📥 Download HTML Report",
+                    data=f,
+                    file_name=os.path.basename(html_path),
+                    mime="text/html"
+                )
