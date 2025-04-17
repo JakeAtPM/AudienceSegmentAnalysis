@@ -135,18 +135,21 @@ if st.button("✅ Generate Report"):
         json.dump(report_data, f, indent=2)
     st.info(f"Saved to {json_output_path}")
 
-    with open(json_output_path, "rb") as jf:
-        st.download_button(
-            label="📥 Download JSON Data",
-            data=jf,
-            file_name=f"{audience_title.replace(' ', '_')}.json",
-            mime="application/json"
-        )
-    # Download button
-    with open(output_path, "rb") as f:
-        st.download_button(
-            label="📥 Download HTML Report",
-            data=f,
-            file_name=os.path.basename(output_path),
-            mime="text/html"
-        )
+    col1, col2 = st.columsn(2)
+
+    with col1:
+        with open(json_output_path, "rb") as jf:
+            st.download_button(
+                label="📥 Download JSON Data",
+                data=jf,
+                file_name=f"{audience_title.replace(' ', '_')}.json",
+                mime="application/json"
+            )
+    with col2:
+        with open(output_path, "rb") as f:
+            st.download_button(
+                label="📥 Download HTML Report",
+                data=f,
+                file_name=os.path.basename(output_path),
+                mime="text/html"
+            )
