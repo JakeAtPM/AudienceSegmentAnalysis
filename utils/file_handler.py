@@ -5,7 +5,7 @@ import re
 
 # Define upload directories
 UPLOAD_DIR = Path('data/uploads')
-IMAGE_DIR = Path("static\images\uploads")
+IMAGE_DIR = Path("static/images/uploads")
 
 # Ensure directories exist
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
