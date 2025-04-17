@@ -12,6 +12,15 @@ from utils import ai_summarize, gcs_api_client, L2_api_client, file_handler
 
 ### Streamlit Start
 
+# Initialize session state
+if "html_bytes" not in st.session_state:
+    st.session_state["html_bytes"] = None
+    st.session_state["html_filename"] = None
+
+if "json_bytes" not in st.session_state:
+    st.session_state["json_bytes"] = None
+    st.session_state["json_filename"] = None
+
 st.set_page_config(page_title= 'Audience Segment Report', layout= 'centered')
 
 st.title("📊 Audience Segment Report Builder")
