@@ -2,6 +2,7 @@
 import os
 import streamlit as st
 import json
+from jinja2 import Environment, FileSystemLoader
 import io
 from datetime import datetime
 
@@ -76,10 +77,29 @@ if st.button("✅ Generate Report"):
             summary_text = ai_summarize.generate_summary(report_data)
             report_data["summary"] = summary_text
 
-    st.success("Report generated!")
+    # Render HTML with Jinja2
+    template = Environment.get_template("report_template.html")
+    html_output = template.render(report=report_data)
+
+    output_path = f"output/reports{audience_title.replace(' ', '_')}_report.html"
+    with open(output_path, "w") as f:
+        f.write(html_output)
+
+    # Show completion
+    st.success("✅ Report generated!")
     st.json(report_data)
 
+    # Save JSON
     json_output_path = os.path.join("json/generated_json", f"{audience_title.replace(' ', '_')}.json")
     with open(json_output_path, "w") as f:
         json.dump(report_data, f, indent=2)
     st.info(f"Saved to {json_output_path}")
+
+     #Show the download button — only at this point
+    with open(output_path, "rb") as f:
+        st.download_button(
+            label="📥 Download HTML Report",
+            data=f,
+            file_name=f"{audience_title.replace(' ', '_')}_report.html",
+            mime="text/html"
+        )
