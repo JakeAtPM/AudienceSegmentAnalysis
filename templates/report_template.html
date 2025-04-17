@@ -95,9 +95,14 @@
   <section>
     <h2>High-Affinity Keywords</h2>
     <ul>
-      {% for keyword in report.keywords %}
-        <li>{{ keyword }}</li>
-      {% endfor %}
+      {% if report.keywords %}
+      <ul>
+        {% for keyword in report.keywords %}
+          <li>{{ keyword }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
     </ul>
   </section>
 

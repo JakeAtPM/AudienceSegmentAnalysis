@@ -98,6 +98,7 @@ if st.button("✅ Generate Report"):
         f.write(html_output)
 
     st.success("✅ Report generated!")
+    st.json(report_data)
 
     # Ensure JSON output directory exists
     json_output_dir = "json/generated_json"
