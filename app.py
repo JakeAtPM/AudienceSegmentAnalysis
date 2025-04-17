@@ -66,7 +66,7 @@ logo_base64 = file_handler.encode_image_base64('static/images/publicmedia-logo.p
 
 if st.button("✅ Generate Report"):
     # Clean and prepare user input
-    cleaned_keywords = [k.strip() for k in keywords if k.strip()]
+    cleaned_keywords = [k.strip() for k in keywords.splitlines() if k.strip()]
 
     report_data = {
         "title": audience_title,
