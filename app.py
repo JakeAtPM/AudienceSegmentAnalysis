@@ -60,7 +60,7 @@ news_outlets = st.text_area("Enter each news outlet on a new line").splitlines()
 
 # High-Affinity Keywords Input
 st.subheader("🔑 High-Affinity Keywords")
-keywords = st.text_area("Enter keywords separated by commas")
+keywords = st.text_area("Enter each keyword on a new line")
 
 # Recommended Media Targets Input
 st.subheader("🎯 Media Targets")
