@@ -115,7 +115,7 @@ if st.button("✅ Generate Report"):
     template = env.get_template("report_template.html")
     html_output = template.render(report=report_data)
 
-    # Ensure the output directory exists
+    # Ensure output directory exists
     output_dir = "output/reports"
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, f"{audience_title.replace(' ', '_')}_report.html")
@@ -123,30 +123,43 @@ if st.button("✅ Generate Report"):
     with open(output_path, "w") as f:
         f.write(html_output)
 
-    st.success("✅ Report generated!")
-    st.json(report_data, expanded=False)
+    # Read HTML content into session state
+    with open(output_path, "rb") as f:
+        st.session_state["html_bytes"] = f.read()
+        st.session_state["html_filename"] = os.path.basename(output_path)
 
-    # Ensure JSON output directory exists
+    # Save JSON file and read into session state
     json_output_dir = "json/generated_json"
     os.makedirs(json_output_dir, exist_ok=True)
     json_output_path = os.path.join(json_output_dir, f"{audience_title.replace(' ', '_')}.json")
 
     with open(json_output_path, "w") as f:
         json.dump(report_data, f, indent=2)
-    st.info(f"Saved to {json_output_path}")
 
     with open(json_output_path, "rb") as jf:
+        st.session_state["json_bytes"] = jf.read()
+        st.session_state["json_filename"] = os.path.basename(json_output_path)
+
+    st.success("✅ Report generated!")
+    st.json(report_data, expanded=False)
+    st.info(f"Files saved: {json_output_path} and {output_path}")
+
+# Show download buttons if session state contains the file data
+if "html_bytes" in st.session_state and "json_bytes" in st.session_state:
+    col1, col2 = st.columns(2)
+
+    with col1:
         st.download_button(
             label="📥 Download JSON Data",
-            data=jf,
-            file_name=f"{audience_title.replace(' ', '_')}.json",
+            data=st.session_state["json_bytes"],
+            file_name=st.session_state["json_filename"],
             mime="application/json"
         )
-    # Download button
-    with open(output_path, "rb") as f:
+
+    with col2:
         st.download_button(
             label="📥 Download HTML Report",
-            data=f,
-            file_name=os.path.basename(output_path),
+            data=st.session_state["html_bytes"],
+            file_name=st.session_state["html_filename"],
             mime="text/html"
         )
