@@ -1,2 +1,11 @@
 streamlit
 jinja2
+openai
+pandas
+os
+re
+dotenv
+pathlib
+io
+json
+datetime
