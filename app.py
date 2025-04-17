@@ -53,12 +53,14 @@ image_file = st.file_uploader("Upload an image file", type=["png", "jpg", "jpeg"
 
 if image_file:
     saved_path = file_handler.save_uploaded_image(image_file)
-    image_base64 = encode_image_base64(saved_path)
+    image_base64 = file_handler.encode_image_base64(saved_path)
     st.image(saved_path, caption="Uploaded demographic image", use_container_width=True)
 else:
     saved_path = None
 
+# branding logo hard coded
 
+logo_base64 = file_handler.encode_image_base64('static/images/publicmedia-logo.png')
 
 # AI Summary Generation and Report Finalization
 
