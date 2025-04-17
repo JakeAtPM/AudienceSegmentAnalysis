@@ -74,33 +74,39 @@ if st.button("✅ Generate Report"):
     }
 
     with st.spinner("Generating summary with AI..."):
-            summary_text = ai_summarize.generate_summary(report_data)
-            report_data["summary"] = summary_text
+        summary_text = ai_summarize.generate_summary(report_data)
+        report_data["summary"] = summary_text
 
-    # Render HTML with Jinja2]
+    # Render HTML with Jinja2
     env = Environment(loader=FileSystemLoader('templates'))
     template = env.get_template("report_template.html")
     html_output = template.render(report=report_data)
 
-    output_path = f"output/reports{audience_title.replace(' ', '_')}_report.html"
+    # Ensure the output directory exists
+    output_dir = "output/reports"
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, f"{audience_title.replace(' ', '_')}_report.html")
+
     with open(output_path, "w") as f:
         f.write(html_output)
 
-    # Show completion
     st.success("✅ Report generated!")
     st.json(report_data)
 
-    # Save JSON
-    json_output_path = os.path.join("json/generated_json", f"{audience_title.replace(' ', '_')}.json")
+    # Ensure JSON output directory exists
+    json_output_dir = "json/generated_json"
+    os.makedirs(json_output_dir, exist_ok=True)
+    json_output_path = os.path.join(json_output_dir, f"{audience_title.replace(' ', '_')}.json")
+
     with open(json_output_path, "w") as f:
         json.dump(report_data, f, indent=2)
     st.info(f"Saved to {json_output_path}")
 
-     #Show the download button — only at this point
+    # Download button
     with open(output_path, "rb") as f:
         st.download_button(
             label="📥 Download HTML Report",
             data=f,
-            file_name=f"{audience_title.replace(' ', '_')}_report.html",
+            file_name=os.path.basename(output_path),
             mime="text/html"
         )
