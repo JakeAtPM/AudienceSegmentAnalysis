@@ -19,7 +19,7 @@ Looking only at the 'title' part of the JSON given, analyze and give a short (ap
 json file: {initial_json_output}
 """
     response = openai.chat.completions.create(
-        model = 'gpt-4',
+        model = 'gpt-3.5-turbo',
         messages = [{'role':'user','content':prompt}],
         temperature = 0.7,
         max_tokens = 300
