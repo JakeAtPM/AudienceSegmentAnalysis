@@ -25,6 +25,7 @@ json file: {initial_json_output}
         max_tokens = 300
         )
     
-    summary_text = response.choices[0].message['content'].strip()
+    summary_text = response.choices[0].message.content.strip()
+
 
     return summary_text
