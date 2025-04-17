@@ -16,6 +16,7 @@ st.set_page_config(page_title= 'Audience Segment Report', layout= 'centered')
 
 st.title("📊 Audience Segment Report Builder")
 
+st.subheader('📤 Generate Report from Existing JSON file')
 with st.expander("📁 Load Existing JSON"):
     uploaded_json = st.file_uploader("Upload a previously generated JSON file", type="json")
     if uploaded_json is not None:
@@ -41,6 +42,7 @@ with st.expander("📁 Load Existing JSON"):
         )
 
 # Audience Input
+st.subheader('📝 New Report Inputs')
 audience_title = st.text_input("📝 Audience Title", help="This will appear as the report title")
 
 # Primary News Outlets Input
