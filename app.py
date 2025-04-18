@@ -14,12 +14,12 @@ from utils import ai_summarize, gcs_api_client, L2_api_client, file_handler
 
 # Initialize session state
 if "html_bytes" not in st.session_state:
-    st.session_state["html_bytes"] = None
-    st.session_state["html_filename"] = None
+    st.session_state["html_bytes"] = ''
+    st.session_state["html_filename"] = ''
 
 if "json_bytes" not in st.session_state:
-    st.session_state["json_bytes"] = None
-    st.session_state["json_filename"] = None
+    st.session_state["json_bytes"] = ''
+    st.session_state["json_filename"] = ''
 
 st.set_page_config(page_title= 'Audience Segment Report', layout= 'centered')
 
