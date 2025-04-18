@@ -153,6 +153,10 @@ if st.button("✅ Generate Report"):
     st.json(report_data, expanded=False)
     st.info(f"Files saved: {json_output_path} and {output_path}")
 
+
+# Formatting Gap
+st.write("")
+
 # Show download buttons if session state contains the file data
 if "html_bytes" in st.session_state and "json_bytes" in st.session_state:
     col1, col2 = st.columns(2)
@@ -172,3 +176,4 @@ if "html_bytes" in st.session_state and "json_bytes" in st.session_state:
             file_name=st.session_state["html_filename"],
             mime="text/html"
         )
+
