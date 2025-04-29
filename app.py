@@ -33,7 +33,7 @@ with st.expander("📁 Load Existing JSON"):
 
         # Render HTML with Jinja2
         env = Environment(loader=FileSystemLoader('templates'))
-        template = env.get_template("report_template.html")
+        template = env.get_template("report_template_v2.html")
         html_output = template.render(report=report_data)
 
         # Save to temporary HTML file
@@ -121,7 +121,7 @@ if st.button("✅ Generate Report"):
     report_data['demographic_image'] = image_base64
 
     env = Environment(loader=FileSystemLoader('templates'))
-    template = env.get_template("report_template.html")
+    template = env.get_template("report_template_v2.html")
     html_output = template.render(report=report_data)
 
     # Ensure output directory exists
