@@ -92,6 +92,7 @@ if image_file:
     st.image(saved_path, caption="Uploaded demographic image", use_container_width=True)
 else:
     saved_path = None
+    image_base64 = None
 
 # branding logo hard coded
 
