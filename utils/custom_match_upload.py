@@ -4,10 +4,6 @@ import pandas as pd
 import phonenumbers
 import json
 
-service = get_service()
-
-advertiser_id = '580356235' #dewey digital one for now
-
 def hash_pii(value:str) -> str:
     if not value or pd.isna(value):
         return ""
