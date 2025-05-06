@@ -10,3 +10,4 @@ google-auth-oauthlib
 google-cloud-bigquery
 hashlib
 phonenumbers
+zipfile
