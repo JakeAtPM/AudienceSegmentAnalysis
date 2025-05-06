@@ -46,3 +46,4 @@ def prepare_customer_match (df: pd.DataFrame) -> dict:
             'contact_info_list': contact_info_list
         }
     }
+    
