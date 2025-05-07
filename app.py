@@ -94,7 +94,7 @@ with tab4:
 
             # Save to temporary HTML file
             html_file_name = f"{report_data['title'].replace(' ', '_')}_report_from_json.html"
-            with open(html_file_name, "w") as f:
+            with open(html_file_name, "w", encoding='utf-8') as f:
                 f.write(html_output)
 
             # Show preview & download
@@ -136,7 +136,7 @@ with tab4:
         os.makedirs(output_dir, exist_ok=True)
         output_path = os.path.join(output_dir, f"{audience_title.replace(' ', '_')}_report.html")
 
-        with open(output_path, "w") as f:
+        with open(output_path, "w", encoding='utf-8') as f:
             f.write(html_output)
 
         # Read HTML content into session state
