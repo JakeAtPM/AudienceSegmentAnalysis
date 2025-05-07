@@ -89,7 +89,7 @@ with tab4:
 
             # Render HTML with Jinja2
             env = Environment(loader=FileSystemLoader('templates'))
-            template = env.get_template("report_template_v2.html")
+            template = env.get_template("report_template_v3.html")
             html_output = template.render(report=report_data)
 
             # Save to temporary HTML file
@@ -128,7 +128,7 @@ with tab4:
         report_data['demographic_image'] = image_base64
 
         env = Environment(loader=FileSystemLoader('templates'))
-        template = env.get_template("report_template_v2.html")
+        template = env.get_template("report_template_v3.html")
         html_output = template.render(report=report_data)
 
         # Ensure output directory exists

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Audience Analysis Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'JetBrains Mono', 'Gothic Century';
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #0c0c0c;
+    }
+
+    .top-banner {
+      background-color: #f0f4f8;
+      padding: 4rem 2rem 5rem 2rem;
+      position: relative;
+    }
+
+    .logo-absolute {
+      position: absolute;
+      top: 1.5rem;
+      left: 2rem;
+    }
+
+    .logo {
+      max-height: 50px;
+    }
+
+    .top-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .main-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-top: 2rem;
+    }
+
+    .subtitle-container {
+      text-align: center;
+    }
+
+    .subtitle-badge {
+      background-color: #0c0c3e;
+      color: white;
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      border-radius: 2rem;
+    }
+
+    .section-target {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background-color: #f0f4f8;
+      border-radius: 30px;
+      text-align: center;
+    }
+
+    .section-target h2 {
+      color: #0c0c3e;
+      margin-bottom: 1rem;
+    }
+
+  
+    .section {
+      max-width: 900px;
+      margin: 4rem auto; /* Increased margin for more space between sections */
+      padding: 0 1.5rem;
+    }
+
+    .section h2 {
+      color: #0c0c3e;
+      margin-bottom: 0.5rem;
+      
+    }
+
+/* shadowed cards for easier distinction */
+      .section {
+        background-color: #ffffff;
+        padding: 2.5rem 2rem;
+        margin: 4rem auto;
+        border-radius: 20px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+
+    .divider {
+      border-bottom: 0.5px solid #ccc;
+      margin: 0 auto 1rem auto;
+      border-radius: 2px;
+    }
+
+
+    .keyword-list {
+      padding-left: 1.5rem;
+    }
+
+    .keyword-list li {
+      margin-bottom: 0.5rem;
+    }
+
+    .visual-container {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .section-grid-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .grid-section {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <div class="top-banner">
+    <!-- Top-left logo -->
+    <div class="logo-absolute">
+      <img src="{{ report.logo_base64}}" alt="Logo" class="logo">
+    </div>
+
+    <!-- Centered title and subtitle -->
+    <div class="top-content">
+      <div class="main-title">Audience Analysis:</div>
+      <div class="subtitle-container">
+        <div class="subtitle-badge"> {{ report.title }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Highlighted Target Audience section -->
+  <div class="section-target" id="target-audience">
+    <h2>Target Audience</h2>
+    <p>{{ report.summary }}</p>
+  </div>
+  <!-- Begin 2x2 Grid Section -->
+  <div class="section-grid-wrapper">
+
+    <!-- Primary News Outlets -->
+    <div class="grid-section" id="news-oulets">
+      <h2>Primary News Outlets</h2>
+      <div class="divider"></div>
+      <ul class="keyword-list">
+        {% for outlet in report.news_outlets %}
+          <li>{{ outlet }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- High-Affinity Keywords -->
+    <div class="grid-section" id="keywords">
+      <h2>High-Affinity Keywords</h2>
+      <div class="divider"></div>
+      <ul class="keyword-list">
+        {% for keyword in report.keywords %}
+          <li>{{ keyword }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Media Targets -->
+    <div class="grid-section" id="media-targets">
+      <h2>Media Targets</h2>
+      <div class="divider"></div>
+      {% for target in report.media_targets %}
+        <strong>{{ target.organization }}</strong>
+        <p>{{ target.description }}</p>
+      {% endfor %}
+    </div>
+
+    <!-- Media Consumption Categories -->
+    <div class="grid-section" id="media-categories">
+      <h2>Media Consumption Categories</h2>
+      <div class="divider"></div>
+      <ul class="keyword-list">
+        {% for category in report.media_categories %}
+          <li>{{ category }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>
+  <!-- End 2x2 Grid Section -->
+
+  <!-- News Diet -->
+  <div class="section" id="news-diet">
+    <h2>News Diet</h2>
+    <div class="divider"></div>
+  
+    <!-- Grade and Issue -->
+    <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 200px;">
+        <strong>📰 News Quality Grade</strong>
+        <div style="font-size: 2.5rem; font-weight: bold; color: #0c0c3e;">53.71</div>
+      </div>
+      <div style="flex: 1; min-width: 200px;">
+        <strong>📌 Issue</strong>
+        <div style="font-size: 1.8rem; font-weight: bold;">Lacks Context</div>
+      </div>
+    </div>
+  
+    <!-- Quality Summary -->
+    <div style="margin-top: 2rem;">
+      <h3>Quality Summary</h3>
+      <p>
+        The group's news consumption shows a clear reliance on low-quality sources. Sites like comicsands.com and aol.com score poorly both in overall credibility and journalistic standards, with frequent failures in accuracy, transparency, and editorial responsibility.
+        Even abcnews.go.com underperforms in key areas. Only cnn.com and cbsnews.com meet most trust indicators. This pattern suggests exposure to misinformation and highlights a need for more reliable news habits.
+      </p>
+    </div>
+  
+    <!-- Most Visited Sites Table -->
+    <div style="margin-top: 2rem;">
+      <h3>Most Visited Sites</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+          <tr style="background-color: #f0f4f8;">
+            <th style="text-align: left; padding: 0.75rem;">URL</th>
+            <th style="text-align: right; padding: 0.75rem;">UniqueCookies</th>
+            <th style="text-align: right; padding: 0.75rem;">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding: 0.5rem;">msn.com</td><td style="text-align: right;">5418</td><td style="text-align: right;">54</td></tr>
+          <tr><td style="padding: 0.5rem;">newsweek.com</td><td style="text-align: right;">4732</td><td style="text-align: right;">93</td></tr>
+          <tr><td style="padding: 0.5rem;">news.yahoo.com</td><td style="text-align: right;">4396</td><td style="text-align: right;">41</td></tr>
+          <tr><td style="padding: 0.5rem;">yahoo.com</td><td style="text-align: right;">4396</td><td style="text-align: right;">59</td></tr>
+          <tr><td style="padding: 0.5rem;">mediaite.com</td><td style="text-align: right;">1493</td><td style="text-align: right;">55</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+
+  
+  
+</body>
+</html>
