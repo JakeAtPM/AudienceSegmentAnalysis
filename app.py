@@ -21,9 +21,13 @@ if "json_bytes" not in st.session_state:
 st.set_page_config(page_title="Audience Segment Report", layout="wide")
 st.title("📊 Audience Segment Report Builder")
 
+#Online presence
+#online fingerprint
+#online footprint
+
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📋 Report Builder",
-    "⚙️ Advanced Inputs",
+    "📋 Report Basics",
+    "⚙️ Demographic",
     "🌐 API Tools",
     "🧠 Generate Report"
 ])

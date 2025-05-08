@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ report.title }}</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 40px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      border-bottom: 3px solid #007ACC;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: #007ACC;
+    }
+
+    section {
+      margin-bottom: 35px;
+    }
+
+    section h2 {
+      font-size: 22px;
+      color: #007ACC;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .media-target {
+      margin-bottom: 15px;
+    }
+
+    .media-target strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 0;
+      outline: 0;
+      box-shadow: none;
+      margin-top: 10px;
+    }
+
+    .summary-box {
+      background-color: #f3f7fb;
+      border-left: 5px solid #007ACC;
+      padding: 15px;
+      margin-top: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>{{ report.title }}</h1>
+    {% if report.demographic_image %}
+      <img src="{{ report.logo_base64 }}" alt="logo-branding" style="max-height: 80px;">
+    {% endif %}
+  </header>
+
+  <section>
+    <h2>AI Summary</h2>
+    <div class="summary-box">
+      {{ report.summary }}
+    </div>
+  </section>
+
+  <section>
+    <h2>Primary News Outlets</h2>
+    <ul>
+      {% for outlet in report.news_outlets %}
+        <li>{{ outlet }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section>
+    <h2>High-Affinity Keywords</h2>
+    <ul>
+      {% if report.keywords %}
+      <ul>
+        {% for keyword in report.keywords %}
+          <li>{{ keyword }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Media Targets</h2>
+    {% for target in report.media_targets %}
+      <div class="media-target">
+        <strong>{{ target.organization }}</strong>
+        <p>{{ target.description }}</p>
+      </div>
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Places of Interest</h2>
+    <ul>
+      {% for place in report.places_of_interest %}
+        <li>{{ place }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Visited Media Categories</h2>
+    <ul>
+      {% for category in report.media_categories %}
+        <li>{{ category }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  {% if report.demographic_image %}
+    <section>
+      <h2>Age & Gender Demographics</h2>
+      <img src="{{ report.demographic_image }}" alt="Demographic Chart">
+    </section>
+  {% endif %}
+
+</body>
+</html>
