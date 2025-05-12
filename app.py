@@ -34,36 +34,45 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 # ---------------- Tab 1: Report Basics ----------------
 with tab1:
-    st.subheader('📝 Report Basics')
-    
-    audience_title = st.text_input("📝 Audience Title", help="This will appear as the report title")
+    st.subheader('📝 Report Builder')
+    with st.expander("⚙️ Choose Report Sections to Include"):
+        include_keywords = st.checkbox("Include Keywords", value=True)
+        include_news_outlets = st.checkbox("Include News Outlets", value=True)
+        include_media_targets = st.checkbox("Include Media Targets", value=True)
+        include_places = st.checkbox("Include Places of Interest", value=True)
+        include_categories = st.checkbox("Include Media Categories", value=True)
 
     # Primary News Outlets Input
-    st.subheader("📰 Primary News Outlets")
-    news_outlets = st.text_area("Enter each news outlet on a new line").splitlines()
+    if include_news_outlets:
+        st.subheader("📰 Primary News Outlets")
+        news_outlets = st.text_area("Enter each news outlet on a new line").splitlines()
 
     # High-Affinity Keywords Input
-    st.subheader("🔑 High-Affinity Keywords")
-    keywords = st.text_area("Enter each keyword on a new line")
+    if include_keywords:
+        st.subheader("🔑 High-Affinity Keywords")
+        keywords = st.text_area("Enter each keyword on a new line")
 
     # Recommended Media Targets Input
-    st.subheader("🎯 Media Targets")
-    media_targets = []
-    num_targets = st.number_input("How many media targets?", min_value=1, max_value=10, step=1)
-    for i in range(num_targets):
-        with st.expander(f"Media Target #{i+1}"):
-            org = st.text_input(f"Target #{i+1} - Organization Name", key=f"media_org_{i}")
-            desc = st.text_area(f"Target #{i+1} - Description", key=f"media_desc_{i}")
-            media_targets.append({"organization": org, "description": desc})
+    if include_media_targets:
+        st.subheader("🎯 Media Targets")
+        media_targets = []
+        num_targets = st.number_input("How many media targets?", min_value=1, max_value=10, step=1)
+        for i in range(num_targets):
+            with st.expander(f"Media Target #{i+1}"):
+                org = st.text_input(f"Target #{i+1} - Organization Name", key=f"media_org_{i}")
+                desc = st.text_area(f"Target #{i+1} - Description", key=f"media_desc_{i}")
+                media_targets.append({"organization": org, "description": desc})
 
     # Places of Interest Input
-    st.subheader("📍 Places of Interest")
-    places = st.text_area("Enter each place of interest on a new line").splitlines()
+    if include_places:
+        st.subheader("📍 Places of Interest")
+        places = st.text_area("Enter each place of interest on a new line").splitlines()
 
 
     # Media Categories Input
-    st.subheader("📂 Media Categories Visited")
-    categories = st.text_area("Enter each category on a new line").splitlines()
+    if include_categories:
+        st.subheader("📂 Media Categories Visited")
+        categories = st.text_area("Enter each category on a new line").splitlines()
 
 
     # Target Audience Demographics Input
@@ -116,11 +125,11 @@ with tab4:
 
         report_data = {
             "title": audience_title,
-            "news_outlets": news_outlets,
-            "keywords": cleaned_keywords,
-            "media_targets": media_targets,
-            "places_of_interest": places,
-            "media_categories": categories,
+            "news_outlets": news_outlets if include_news_outlets else '',
+            "keywords": cleaned_keywords if include_keywords else [],
+            "media_targets": media_targets if include_media_targets else '',
+            "places_of_interest": places if include_places else '',
+            "media_categories": categories if include_categories else'',
         }
 
         with st.spinner("Generating summary with AI..."):
